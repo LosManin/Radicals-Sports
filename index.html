@@ -1,90 +1,95 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Radical Sports</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta name="description" content="Join Radical Sports for exclusive football insights and tactical breakdowns. Limited-time access." />
+  <!-- Facebook Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1038318315115764'); 
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1038318315115764&ev=PageView&noscript=1"/></noscript>
+  <!-- End Facebook Pixel -->
   <style>
     body {
-      background: black;
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
     }
-
     .card {
-      background: #1e1e1e;
-      color: white;
-      border-radius: 16px;
-      padding: 25px;
-      width: 280px;
-      box-shadow: 0 0 25px #00fff2;
+      background: #111;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
       text-align: center;
+      box-shadow: 0 0 30px rgba(0, 255, 170, 0.4);
     }
-
-    h2 {
-      font-size: 22px;
+    .card img {
+      width: 120px;
+      border-radius: 50%;
       margin-bottom: 20px;
     }
-
-    p {
-      margin: 10px 0;
-      font-size: 15px;
-    }
-
-    .highlight {
-      color: #00ff90;
-      font-weight: bold;
-    }
-
-    .join-btn {
-      display: block;
+    .btn {
+      display: inline-block;
       background: #00aaff;
       color: white;
-      padding: 12px;
-      margin: 25px auto;
-      border-radius: 8px;
-      text-decoration: none;
+      padding: 12px 24px;
       font-weight: bold;
-      width: 90%;
-      box-shadow: 0 0 15px #00aaff;
+      text-decoration: none;
+      border-radius: 30px;
+      margin-top: 20px;
+      transition: background 0.3s;
     }
-
+    .btn:hover {
+      background: #0088cc;
+    }
     .stars {
+      margin-top: 20px;
+    }
+    .stars span {
       font-size: 22px;
       color: gold;
-      margin-bottom: 10px;
     }
-
-    .footer {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #aaa;
+    .note {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>DEPORTES RADICALES</h2>
-
-    <p>✅ Contenido exclusivo de fútbol ⭐</p>
-    <p>🔍 Desgloses tácticos y profesionales</p>
-    <p>🌟 Acceso <span class="highlight">por tiempo limitado: toca a continuación para ingresar</span> 🌟</p>
-
-    <a href="https://t.me/+YD5T2oCPka0yYjE0" class="join-btn" target="_blank">ÚNETE A LA COMUNIDAD</a>
-
-    <div class="stars">⭐ ⭐ ⭐ ⭐ ⭐</div>
-    <p>Calificación 4.9/5 (más de 1.500 usuarios)</p>
-
-    <div class="footer">
-      Esta es tu invitación para unirte a <strong>RADICAL SPORTS</strong>.<br />
-      Toca el botón para unirte.<br /><br />
-      +18 🔞
+    <img src="/logo.png" alt="Radical Sports Logo" />
+    <h2>RADICAL SPORTS</h2>
+    <p>
+      ✅ Exclusive football content ⭐<br />
+      🔍 Tactical and professional breakdowns<br />
+      🌟 <strong style="color:#00ff7f">Limited-time access - Tap below to enter</strong>
+    </p>
+    <a href="https://t.me/+YD5T2oCPka0yYjE0" class="btn">JOIN THE COMMUNITY</a>
+    <div class="stars">
+      <span>⭐️⭐️⭐️⭐️⭐️</span>
+      <p style="margin: 0">4.9/5 rating (1.5k+ users)</p>
     </div>
+    <p class="note">This is your invite to join <strong>RADICAL SPORTS</strong>. Tap the button to join.<br />🔞 +18 only</p>
   </div>
 </body>
 </html>
+
