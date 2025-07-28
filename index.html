@@ -103,6 +103,58 @@
         color: #bbb;
       }
     </style>
+    <!-- Facebook Pixel Base Code + API de Conversiones -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src='https://connect.facebook.net/en_US/fbevents.js';
+  s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script');
+
+  fbq('init', '1038318315115764');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1038318315115764&ev=PageView&noscript=1"/>
+</noscript>
+
+<script>
+  async function sendTelegramJoinEvent() {
+    const event_id = 'join_telegram_' + Date.now();
+
+    const payload = {
+      event_name: 'JoinTelegram',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: event_id,
+      action_source: 'website',
+      event_source_url: window.location.href,
+      user_data: {
+        client_user_agent: navigator.userAgent
+      },
+      custom_data: {}
+    };
+
+    fetch('https://graph.facebook.com/v17.0/1038318315115764/events?access_token=EAAJDOIrNiuMBPA4WVRGdNzgdZBqDf8VdHvOyQK84QZB6E5ZBYIjnFgw15PuKXkVPwLXSgLwM0vDVtIEHLVxABa9iB81ODZCNXOBFnDep2ZCrylIAClZCqCxvk3b0QtbLc6ZCm42GfzR7DTYExZANR7tKd6Y0vZCA49MJMoYtFlyDw3BAnajZCHNuzVOJmauUZBd4fbxIgZDZD', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: [payload] })
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('join-telegram-button');
+    if (btn) {
+      btn.addEventListener('click', sendTelegramJoinEvent);
+    }
+  });
+</script>
+<!-- Fin integración Meta Pixel + API -->
   </head>
   <body>
     <div class="card">
@@ -113,8 +165,8 @@
         🔍 Tactical and professional breakdowns<br />
         🌟 <strong style="color: #00ff99;">Limited-time access – Tap below to enter</strong>
       </div>
- <a href="https://t.me/+YD5T2oCPka0yYjE0" target="_blank" onclick="fbq('track', 'JoinTelegramClick');" class="btn">
-  JOIN THE COMMUNITY
+<a id="join-telegram-button" href="https://t.me/+YD5T2oCPka0yYjE0" target="_blank" onclick="fbq('track', 'JoinTelegramClick');" class="btn">
+  JOIN THE COMMUNITY
       </a>
       <div class="rating">⭐️⭐️⭐️⭐️⭐️<br />4.9/5 rating (1.5k+ users)</div>
       <div class="footer">This is your invite to join <strong>RADICAL SPORTS</strong>.<br />Tap the button to join.<br />🔞 +18 only</div>
