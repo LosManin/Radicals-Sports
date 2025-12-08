@@ -1,60 +1,52 @@
 // api/meta-conversion.js
 
-// Función serverless para enviar eventos a la Conversions API de Meta
-// Formato CommonJS para que Vercel no dé errores de ES module
-
 module.exports = async (req, res) => {
-  // Solo aceptamos POST
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method not allowed' });
-    return;
+  // Solo aceptar POST
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
+  const accessToken = process.env.META_CONVERSIONS_API_TOKEN;
+  const pixelId = "1038318315115764"; // Tu pixel Radical Sports
+
   try {
-    const accessToken = process.env.META_CONVERSIONS_API_TOKEN;
+    const body = req.body || {};
 
-    if (!accessToken) {
-      console.error('META_CONVERSIONS_API_TOKEN is missing in environment variables');
-      res.status(500).json({ error: 'Server config error: missing token' });
-      return;
-    }
-
-    // Datos que llegan desde el botón (por ahora los usamos fijos)
-    const { event_name, event_source_url } = req.body || {};
+    const eventName = body.event_name || "Subscribe";
+    const eventSourceUrl =
+      body.event_source_url || "https://radicalssportspro.com/";
 
     const payload = {
       data: [
         {
-          event_name: event_name || 'Subscribe',
-          event_time: Math.floor(Date.now() / 1000),
-          action_source: 'website',
-          event_source_url: event_source_url || 'https://radicalssportspro.com/'
-        }
-      ]
+          event_name: eventName,
+          event_time: Math.floor(Date.now() / 1000), // ahora en segundos
+          action_source: "website",
+          event_source_url: eventSourceUrl,
+        },
+      ],
     };
-
-    const pixelId = '1038318315115764'; // tu Dataset / Pixel ID
 
     const url = https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken};
 
-    const fbResponse = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
-    const fbData = await fbResponse.json();
+    const data = await response.json();
+    console.log("Meta API response:", data);
 
-    if (!fbResponse.ok) {
-      console.error('Facebook API error:', fbData);
-      res.status(500).json({ error: 'Facebook API error', details: fbData });
-      return;
+    if (!response.ok) {
+      return res
+        .status(500)
+        .json({ error: "Meta API error", details: data });
     }
 
-    console.log('Meta CAPI OK:', fbData);
-    res.status(200).json({ success: true, fb: fbData });
+    return res.status(200).json({ success: true, data });
   } catch (error) {
-    console.error('Internal API error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Server error:", error);
+    return res.status(500).json({ error: "Server error" });
   }
 };
