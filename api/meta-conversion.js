@@ -1,42 +1,54 @@
 export default async function handler(req, res) {
-  try {
-    const token = process.env.META_CONVERSIONS_API_TOKEN;
+  // Solo aceptamos POST
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-    if (!token) {
-      return res.status(500).json({ error: "Missing API token" });
+  try {
+    const accessToken = process.env.META_CONVERSIONS_API_TOKEN;
+    const pixelId = "1038318315115764"; // ID de tu pixel/dataset Radical Sports
+
+    if (!accessToken) {
+      console.error("Falta META_CONVERSIONS_API_TOKEN en Vercel");
+      return res.status(500).json({ error: "Missing access token" });
     }
 
-    const { event_name, event_source_url, test_event_code } = req.body || {};
+    const body = req.body || {};
+    const event_name = body.event_name || "Subscribe";
+    const event_source_url =
+      body.event_source_url || "https://radicalssportspro.com/";
 
     const payload = {
       data: [
         {
-          event_name: event_name || "Subscribe",
+          event_name,
           event_time: Math.floor(Date.now() / 1000),
-          event_source_url: event_source_url || "https://radicalssportspro.com/",
+          event_source_url,
           action_source: "website",
-          user_data: {
-            client_user_agent: req.headers["user-agent"] || ""
-          }
-        }
+        },
       ],
-      // Meta ignora las claves undefined, sirve para pruebas con test_event_code
-      test_event_code: test_event_code || undefined
     };
 
-    const response = await fetch(
-      "https://graph.facebook.com/v18.0/1038318315115764/events?access_token=" + token,
+    const fbResponse = await fetch(
+      https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken},
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }
     );
 
-    const result = await response.json();
-    return res.status(200).json({ meta_response: result });
+    const fbJson = await fbResponse.json();
+
+    if (!fbResponse.ok) {
+      console.error("Facebook CAPI error:", fbJson);
+      return res.status(500).json({ error: "Facebook error", details: fbJson });
+    }
+
+    console.log("Facebook CAPI success:", fbJson);
+    return res.status(200).json({ success: true, fb: fbJson });
   } catch (error) {
-    console.error("Meta API error:", error);
-    return res.status(500).json({ error: error.toString() });
+    console.error("API Error:", error);
+    return res.status(500).json({ error: "Server error" });
   }
 }
