@@ -181,8 +181,8 @@
         🔍 Tactical and professional breakdowns<br />
         🌟 <strong style="color: #00ff99;">Limited-time access – Tap below to enter</strong>
       </div>
-<a href="https://t.me/+9l_ePmg2ZxsyM2I0"
-   onclick="fbq('trackCustom', 'JoinTelegramClick');"
+<a href="https://t.me/+9l_ePmg2ZxsyMzI0"
+onclick="fbq('trackCustom', 'JoinTelegramClick'); trackSubscribe();"
    style="display:inline-block; padding:14px 28px; background:#00aaff; color:white; text-align:center; text-decoration:none; border-radius:8px; font-weight:bold; font-size:16px; box-shadow:0 0 12px #00aaff; transition:0.3s ease all;"
    onmouseover="this.style.background='#008ecc'; this.style.boxShadow='0 0 16px #008ecc';"
    onmouseout="this.style.background='#00aaff'; this.style.boxShadow='0 0 12px #00aaff';">
@@ -191,5 +191,22 @@
       <div class="rating">⭐️⭐️⭐️⭐️⭐️<br />4.9/5 rating (1.5k+ users)</div>
       <div class="footer">This is your invite to join <strong>RADICAL SPORTS</strong>.<br />Tap the button to join.<br />🔞 +18 only</div>
     </div>
+    <script>
+async function trackSubscribe() {
+  try {
+    const response = await fetch("/api/meta-conversion", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event_name: "Subscribe",
+        event_source_url: "https://radicalssportspro.com/"
+      }),
+    });
+    console.log("API Response:", await response.json());
+  } catch (error) {
+    console.error("API Error:", error);
+  }
+}
+</script>
   </body>
 </html>
