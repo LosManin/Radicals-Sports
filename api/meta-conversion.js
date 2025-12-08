@@ -1,35 +1,44 @@
-export default async function handler(req, res) {
+// api/meta-conversion.js
+
+module.exports = async (req, res) => {
+  // Solo aceptamos POST
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
   }
 
-  const accessToken = process.env.META_CONVERSIONS_API_TOKEN; // el que metimos en Vercel
-  const pixelId = 'AQUÍ_VA_TU_PIXEL_ID'; // pon aquí tu Pixel ID real (el que termina en 764)
+  // Token de la API (ya guardado en Vercel como variable de entorno)
+  const ACCESS_TOKEN = process.env.META_CONVERSIONS_API_TOKEN;
 
-  if (!accessToken || !pixelId) {
-    return res.status(500).json({ error: 'Missing config' });
+  // ID del conjunto de datos / píxel de Radical Sports
+  const DATASET_ID = '103831831511517564';
+
+  if (!ACCESS_TOKEN) {
+    res.status(500).json({ error: 'Missing META_CONVERSIONS_API_TOKEN env var' });
+    return;
   }
-
-  const { event_name } = req.body || {};
-
-  const body = {
-    data: [
-      {
-        event_name: event_name || 'Subscribe',
-        event_time: Math.floor(Date.now() / 1000),
-        action_source: 'website',
-        event_source_url: 'https://radicalsportspro.com/',
-        user_data: {
-          client_ip_address: req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
-          client_user_agent: req.headers['user-agent'] || ''
-        }
-      }
-    ]
-  };
 
   try {
+    const eventTime = Math.floor(Date.now() / 1000);
+
+    const body = {
+      data: [
+        {
+          event_name: 'Subscribe',
+          event_time: eventTime,
+          action_source: 'website',
+          event_source_url: 'https://radicalssportspro.com/',
+          user_data: {
+            client_ip_address:
+              req.headers['x-forwarded-for'] || req.socket.remoteAddress || '',
+            client_user_agent: req.headers['user-agent'] || ''
+          }
+        }
+      ]
+    };
+
     const response = await fetch(
-      https://graph.facebook.com/v20.0/${pixelId}/events?access_token=${accessToken},
+      https://graph.facebook.com/v18.0/${DATASET_ID}/events?access_token=${ACCESS_TOKEN},
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -37,15 +46,17 @@ export default async function handler(req, res) {
       }
     );
 
-    const data = await response.json();
+    const json = await response.json();
+
     if (!response.ok) {
-      console.error('Meta CAPI error', data);
-      return res.status(500).json({ error: 'Meta API error', details: data });
+      console.error('Meta CAPI error:', json);
+      res.status(500).json({ error: 'Meta API error', details: json });
+      return;
     }
 
-    return res.status(200).json({ success: true, meta: data });
+    res.status(200).json({ success: true, meta: json });
   } catch (err) {
-    console.error('Server error', err);
-    return res.status(500).json({ error: 'Server error' });
+    console.error('Server error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
-}
+};
