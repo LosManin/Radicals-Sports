@@ -26,6 +26,39 @@
         src="https://www.facebook.com/tr?id=1038318315115764&ev=PageView&noscript=1"/>
     </noscript>
 
+<script>
+async function sendLeadEvent() {
+  try {
+    await fetch("/api/meta-conversion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        event_name: "Lead",
+        event_source_url: window.location.href,
+        custom_data: {
+          value: 0.75,
+          currency: "EUR"
+        }
+      })
+    });
+  } catch (error) {
+    console.log("Meta conversion error:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("join-telegram-button");
+
+  if (btn) {
+    btn.addEventListener("click", function () {
+      sendLeadEvent();
+    });
+  }
+});
+</script>
+
     <style>
       * {
         margin: 0;
