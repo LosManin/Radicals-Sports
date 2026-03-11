@@ -200,8 +200,12 @@ async function trackSubscribe() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        event_name: "Subscribe",
-        event_source_url: "https://radicalssportspro.com/"
+       event_name: "Lead",
+event_source_url: "https://radicalssportspro.com/"
+custom_data: {
+  value: 0.75,
+  currency: "EUR"
+}
       }),
     });
     console.log("API Response:", await response.json());
