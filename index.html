@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Signals Gateway Pixel Code -->
+<script>
+!function(a,h,e,v,n,t,s)
+  {if(a.cbq)return;n=a.cbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!a._cbq)a._cbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=h.createElement(e);t.async=!0;
+  t.src=v;s=h.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://s2s.s2s.radicalssportspro.com/sdk/6661748307803504812/events.js');
+  cbq('setHost', 'https://s2s.s2s.radicalssportspro.com/');
+  cbq('init', '6661748307803504812');
+  cbq('track', 'PageView');
+</script>
+<!-- End Signals Gateway Pixel Code -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RADICAL SPORTS</title>
@@ -25,39 +40,6 @@
       <img height="1" width="1" style="display:none"
         src="https://www.facebook.com/tr?id=1038318315115764&ev=PageView&noscript=1"/>
     </noscript>
-
-<script>
-async function sendLeadEvent() {
-  try {
-    await fetch("/api/meta-conversion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        event_name: "Lead",
-        event_source_url: window.location.href,
-        custom_data: {
-          value: 0.75,
-          currency: "EUR"
-        }
-      })
-    });
-  } catch (error) {
-    console.log("Meta conversion error:", error);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  const btn = document.getElementById("join-telegram-button");
-
-  if (btn) {
-    btn.addEventListener("click", function () {
-      sendLeadEvent();
-    });
-  }
-});
-</script>
 
     <style>
       * {
@@ -137,6 +119,58 @@ document.addEventListener("DOMContentLoaded", function () {
         color: #bbb;
       }
     </style>
+    <!-- Facebook Pixel Base Code + API de Conversiones -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src='https://connect.facebook.net/en_US/fbevents.js';
+  s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script');
+
+  fbq('init', '1038318315115764');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1038318315115764&ev=PageView&noscript=1"/>
+</noscript>
+
+<script>
+  async function sendTelegramJoinEvent() {
+    const event_id = 'join_telegram_' + Date.now();
+
+    const payload = {
+      event_name: 'JoinTelegram',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: event_id,
+      action_source: 'website',
+      event_source_url: window.location.href,
+      user_data: {
+        client_user_agent: navigator.userAgent
+      },
+      custom_data: { value: 0.75, currency: "GBP" }
+    };
+
+    fetch('https://graph.facebook.com/v17.0/1038318315115764/events?access_token=EAAJDOIrNiuMBPA4WVRGdNzgdZBqDf8VdHvOyQK84QZB6E5ZBYIjnFgw15PuKXkVPwLXSgLwM0vDVtIEHLVxABa9iB81ODZCNXOBFnDep2ZCrylIAClZCqCxvk3b0QtbLc6ZCm42GfzR7DTYExZANR7tKd6Y0vZCA49MJMoYtFlyDw3BAnajZCHNuzVOJmauUZBd4fbxIgZDZD', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: [payload] })
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('join-telegram-button');
+    if (btn) {
+      btn.addEventListener('click', sendTelegramJoinEvent);
+    }
+  });
+</script>
+<!-- Fin integración Meta Pixel + API -->
   </head>
   <body>
     <div class="card">
